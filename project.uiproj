@@ -1,0 +1,6 @@
+{
+  "Name": "Dosya Organizatörü",
+  "ProjectType": "Process",
+  "Description": "Sıfırdan başlangıç",
+  "MainFile": "Main.xaml"
+}
