@@ -2,23 +2,19 @@
 
 ![Dosya Organizatörü Otomasyonu](FileEditor.gif)
 
-Bu UiPath projesi, belirtilen bir klasördeki dosyaları analiz ederek, uzantılarına göre yeni dosya kategorileri oluşturan ve dosyaları bu klasörlere taşıyan bir otomasyondur. İşlem sonunda tüm süreci özetleyen detaylı bir rapor e-posta ile kullanıcıyı bilgilendirir.
+Bu UiPath projesi, belirtilen bir klasördeki dosyaları analiz ederek, uzantılarına göre yeni dosya kategorileri oluşturan ve dosyaları bu klasörlere taşıyan bir otomasyondur. İşlem sonunda tüm süreci özetleyen detaylı bir rapor e-posta ile kullanıcıyı bilgilendirir. 
 
 ---
 
 ## 🎯 Projenin Amacı
 
-Önemli dosyalarımızı genellikle özenle klasörleriz, ancak daha az önemli gördüğümüz dosyalar çoğunlukla masaüstünde dağınık bir şekilde birikir. Bu dosyaları silmek her zaman iyi bir seçenek değildir, çünkü ileride tekrar ihtiyaç duyabiliriz. Zamanla bu durum, masaüstünde kontrolü zor bir karmaşaya yol açar.
+Önemli dosyalarımızı genellikle özenle klasörleriz, ancak daha az önemli gördüğümüz dosyalar çoğunlukla masaüstünde dağınık bir şekilde birikir. Bu dosyaları silmek her zaman iyi bir seçenek değildir, çünkü ileride tekrar ihtiyaç duyabiliriz. Zamanla bu durum, masaüstünde kontrolü zor bir karmaşaya yol açar.Bu proje, tam da bu sorunu çözmeyi hedefler. Amacı, masaüstünüzde biriken ve "bir gün lazım olur" diye saklanan tüm bu dosyaları, size hiçbir zahmet vermeden, saniyeler içinde düzenlemektir. Otomasyon, tüm dosyaları uzantılarına göre (TXT Dosyaları, PDF Dosyaları vb.) otomatik olarak kategorize eder ve ilgili klasörlere taşır. 
 
-Bu proje, tam da bu sorunu çözmeyi hedefler. Amacı, masaüstünüzde biriken ve "bir gün lazım olur" diye saklanan tüm bu dosyaları, size hiçbir zahmet vermeden, saniyeler içinde düzenlemektir. Otomasyon, tüm dosyaları uzantılarına göre (TXT Dosyaları, PDF Dosyaları vb.) otomatik olarak kategorize eder ve ilgili klasörlere taşır.
-
-Bu basit çözümle, masaüstünüzdeki dağınıklık sona erer ve dosyalarınız her zaman düzenli ve ulaşılabilir olur.
-
----
+Bu basit çözümle, masaüstünüzdeki dağınıklık sona erer ve dosyalarınız her zaman düzenli ve ulaşılabilir olur. 
 
 ## 🛠️ Kullanılan Yöntemler ve Teknolojiler
 
-Projenin geliştirme temeli, "Windows" uyumluluğuna ayarlı olduğu için **.NET Framework**'tür. Farklı platformlarda (Windows, Linux ve macOS) çalışması istenirse ise **.NET Core** tabanlı "**Cross-platform**" proje tipi tercih edilebilir.
+Projenin geliştirme temeli, "Windows" uyumluluğuna ayarlı olduğu için .NET Framework'tür. Farklı platformlarda (Windows, Linux ve macOS) çalışması istenirse ise .NET Core tabanlı "Cross-platform" proje tipi tercih edilebilir. 
 
 ### 📂 Dosya Sistemi Yönetimi
 
@@ -35,7 +31,7 @@ Projenin geliştirme temeli, "Windows" uyumluluğuna ayarlı olduğu için **.NE
 ###  Süreç Kontrolü ve Hata Yönetimi
 
 *   Ana iş akışı, bir **For Each** döngüsü ile yönetilir ve her dosyanın tek tek işlenmesini garanti eder.
-*   Tüm dosya operasyonları, bir **Try-Catch** bloğu ile sarmalanmıştır. Bu yapı, tek bir dosyada oluşan bir hatanın tüm otomasyonu durdurmasını önler.
+*  Tüm dosya operasyonları, bir Try-Catch bloğu ile sarmalanmıştır. Bu yapı, tek bir dosyada oluşan bir hatanın (örn: erişim engeli) tüm otomasyonu durdurmasını önler ve hatayı raporlanmak üzere kaydeder. 
 
 ### ✉️ Raporlama ve Bildirim
 
@@ -92,8 +88,8 @@ Bu otomasyonu kendi makinenizde çalıştırmak için aşağıdaki adımları ta
 
 Otomasyonu daha kullanıcı dostu hale getirmek amacıyla ileride eklenebilecek bazı özellikler şunlardır:
 
-*   **İçeriğe Göre Akıllı Arşivleme:** **Document Understanding** entegrasyonu ile otomasyon, bir faturayı veya sözleşmeyi içeriğinden tanıyarak daha anlamlı alt klasörlere ayırabilir.
-*   **Kullanıcıya Özel Klasör Seçimi:** Başlangıçta bir diyalog penceresi (**Input Dialog**) ile her kullanıcının organize etmek istediği klasörü kendisinin seçmesi sağlanabilir.
+*   **İçeriğe Göre Akıllı Arşivleme:** Kullanıcıların aradıkları dosyaları daha kolay bulabilmesi için gelecekte **Document Understanding** entegrasyonu düşünülebilir. Bu sayede otomasyon, bir faturayı veya sözleşmeyi içeriğinden tanıyarak, dosyaları Faturalar veya Sözleşmeler gibi, kullanıcının daha anlamlı bulacağı klasörlere ayırabilir. 
+*   **Kullanıcıya Özel Klasör Seçimi:** Kullanıcılara daha fazla esneklik sunmak amacıyla, otomasyonun başında bir diyalog penceresi (**Input Dialog**) eklenebilir. Bu sayede her kullanıcı, organize etmek istediği klasörü kendisi seçebilir ve sabit bir yola bağlı kalmadan kişiselleştirebilir. 
 
 ---
 
