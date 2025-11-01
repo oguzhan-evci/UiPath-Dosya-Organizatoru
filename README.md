@@ -1,6 +1,6 @@
 # Dosya Organizatörü Otomasyonu
 
-![Dosya Organizatörü Demosu](assets/FileEditor.gif)
+![Dosya Organizatörü Demosu](FileEditor.gif)
 
 Bu UiPath projesi, belirtilen bir klasördeki dosyaları analiz ederek, uzantılarına göre yeni dosya kategorileri oluşturan ve dosyaları bu klasörlere taşıyan bir otomasyondur. İşlem sonunda tüm süreci özetleyen detaylı bir rapor e-posta ile kullanıcıyı bilgilendirir.
 
