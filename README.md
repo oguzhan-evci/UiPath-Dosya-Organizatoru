@@ -47,7 +47,3 @@ Projenin mevcut yapısı, gelecekte eklenebilecek yeni özellikler için sağlam
 ## 📄 Lisans
 
 Bu proje, MIT Lisansı koşulları altında lisanslanmıştır.
-
-## ✍️ Yazar
-
-*   **Oğuzhan Evci** - [GitHub](https://github.com/kullaniciadiniz) - [LinkedIn](https://www.linkedin.com/in/profiliniz)
