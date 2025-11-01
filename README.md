@@ -1,4 +1,3 @@
-
 # Dosya Organizatörü Otomasyonu
 
 ![Dosya Organizatörü Otomasyonu](FileEditor.gif)
@@ -7,7 +6,7 @@ Bu UiPath projesi, belirtilen bir klasördeki dosyaları analiz ederek, uzantıl
 
 ---
 
-## Projenin Amacı
+## 🎯 Projenin Amacı
 
 Önemli dosyalarımızı genellikle özenle klasörleriz, ancak daha az önemli gördüğümüz dosyalar çoğunlukla masaüstünde dağınık bir şekilde birikir. Bu dosyaları silmek her zaman iyi bir seçenek değildir, çünkü ileride tekrar ihtiyaç duyabiliriz. Zamanla bu durum, masaüstünde kontrolü zor bir karmaşaya yol açar.
 
@@ -17,89 +16,84 @@ Bu basit çözümle, masaüstünüzdeki dağınıklık sona erer ve dosyaların�
 
 ---
 
-## Kullanılan Yöntemler ve Teknolojiler
+## 🛠️ Kullanılan Yöntemler ve Teknolojiler
 
 Projenin geliştirme temeli, "Windows" uyumluluğuna ayarlı olduğu için **.NET Framework**'tür. Farklı platformlarda (Windows, Linux ve macOS) çalışması istenirse ise **.NET Core** tabanlı "**Cross-platform**" proje tipi tercih edilebilir.
 
-### Dosya Sistemi Yönetimi
+### 📂 Dosya Sistemi Yönetimi
 
-* **Keşif:** Hedef klasördeki tüm dosyalar, `System.IO.Directory.GetFiles()` metodu kullanılarak verimli bir şekilde listelenir.
-* **Analiz:** Her dosyanın türü, `System.IO.Path.GetExtension()` ile uzantısı okunarak belirlenir. Bu, sınıflandırma mantığının temelini oluşturur.
-* **Organizasyon:** `MoveFile` aktivitesi ile dosyalar ilgili kategori klasörlerine taşınır.
+*   **Keşif:** Hedef klasördeki tüm dosyalar, `System.IO.Directory.GetFiles()` metodu kullanılarak verimli bir şekilde listelenir.
+*   **Analiz:** Her dosyanın türü, `System.IO.Path.GetExtension()` ile uzantısı okunarak belirlenir. Bu, sınıflandırma mantığının temelini oluşturur.
+*   **Organizasyon:** `MoveFile` aktivitesi ile dosyalar ilgili kategori klasörlerine taşınır.
 
-### Dinamik Klasör Yapılandırması
+### ✨ Dinamik Klasör Yapılandırması
 
-* **Mevcut Yaklaşım (Dinamik):** Otomasyon, bir dosyayı işlemeden önce, o dosyanın taşınacağı kategori klasörünün (örn: "PDF Dosyaları") var olup olmadığını kontrol eder. Eğer klasör mevcut değilse, `System.IO.Directory.CreateDirectory()` metodunu kullanarak o anda otomatik olarak oluşturur.
+*   **Mevcut Yaklaşım (Dinamik):** Otomasyon, bir dosyayı işlemeden önce, o dosyanın taşınacağı kategori klasörünün (örn: "PDF Dosyaları") var olup olmadığını kontrol eder. Eğer klasör mevcut değilse, `System.IO.Directory.CreateDirectory()` metodunu kullanarak o anda otomatik olarak oluşturur.
+*   **Neden Bu Yöntem Tercih Edildi?** Bu dinamik yaklaşım, otomasyonu son derece esnek kılar. Gelecekte hiç beklemediğiniz bir dosya türüyle (`.epub`, `.svg` vb.) karşılaştığında bile, otomasyon anında uyum sağlar ve yeni kategori klasörünü kendi kendine oluşturur.
+*   **Alternatif Yaklaşım (Statik):** Eğer statik bir yapı kullanılsaydı, otomasyonu çalıştırmadan önce olası tüm dosya türleri için klasörleri (PDF Dosyaları, DOCX Dosyaları, JPG Dosyaları vb.) sizin manuel olarak oluşturmanız gerekirdi. Dinamik yapı, bu bakım yükünü ve kırılganlığı ortadan kaldırır.
 
-* **Neden Bu Yöntem Tercih Edildi?** Bu dinamik yaklaşım, otomasyonu son derece esnek kılar. Gelecekte hiç beklemediğiniz bir dosya türüyle (`.epub`, `.svg` vb.) karşılaştığında bile, otomasyon anında uyum sağlar ve yeni kategori klasörünü kendi kendine oluşturur.
+###  Süreç Kontrolü ve Hata Yönetimi
 
-* **Alternatif Yaklaşım (Statik):** Eğer statik bir yapı kullanılsaydı, otomasyonu çalıştırmadan önce olası tüm dosya türleri için klasörleri (PDF Dosyaları, DOCX Dosyaları, JPG Dosyaları vb.) sizin manuel olarak oluşturmanız gerekirdi. Eğer yeni bir dosya türüyle karşılaşırsa ve onun için önceden bir klasör oluşturulmamışsa, otomasyon hata verip dururdu. Dinamik yapı, bu bakım yükünü ve kırılganlığı ortadan kaldırır.
+*   Ana iş akışı, bir **For Each** döngüsü ile yönetilir ve her dosyanın tek tek işlenmesini garanti eder.
+*   Tüm dosya operasyonları, bir **Try-Catch** bloğu ile sarmalanmıştır. Bu yapı, tek bir dosyada oluşan bir hatanın tüm otomasyonu durdurmasını önler.
 
-### Süreç Kontrolü ve Hata Yönetimi
+### ✉️ Raporlama ve Bildirim
 
-* Ana iş akışı, bir **For Each** döngüsü ile yönetilir ve her dosyanın tek tek işlenmesini garanti eder.
-* Tüm dosya operasyonları, bir **Try-Catch** bloğu ile sarmalanmıştır. Bu yapı, tek bir dosyada oluşan bir hatanın (örn: erişim engeli) tüm otomasyonu durdurmasını önler ve hatayı raporlanmak üzere kaydeder.
-
-### Raporlama ve Bildirim
-
-* **Rapor Oluşturma:** Süreç boyunca toplanan veriler (işlem başlangıç/bitiş zamanı, toplam süre, başarılı ve hatalı dosya sayıları), metin birleştirme (**String Manipulation**) teknikleri kullanılarak tek bir anlamlı rapor metni haline getirilir.
-* **E-posta Gönderimi:** Hazırlanan bu özet rapor, modern bir yaklaşım olan **Use Gmail** aktivitesi kullanılarak işlem sonunda otomatik olarak belirtilen alıcıya e-posta ile iletilir. Bu aktivite, `UiPath.GSuite.Activities` paketinin bir parçası olup, güvenli ve kolay bir entegrasyon sağlar.
+*   **Rapor Oluşturma:** Süreç boyunca toplanan veriler, metin birleştirme (**String Manipulation**) teknikleri kullanılarak tek bir anlamlı rapor metni haline getirilir.
+*   **E-posta Gönderimi:** Hazırlanan bu özet rapor, **Use Gmail** aktivitesi kullanılarak işlem sonunda otomatik olarak belirtilen alıcıya e-posta ile iletilir.
 
 ---
 
-## Proje Bağımlılıkları
+## ⚙️ Proje Bağımlılıkları
 
-Bu projenin çalışabilmesi için bazı temel UiPath aktivite paketlerine ihtiyacı vardır. Ancak manuel olarak yüklemenize gerek yok; UiPath Studio, projeyi ilk kez açtığınızda aşağıda listelenen bu paketleri ve diğer tüm bağımlılıkları `project.json` dosyasını okuyarak sizin için otomatik olarak yükleyecektir.
+Bu projenin çalışabilmesi için bazı temel UiPath aktivite paketlerine ihtiyacı vardır. Ancak manuel olarak yüklemenize gerek yok; UiPath Studio, projeyi ilk kez açtığınızda `project.json` dosyasını okuyarak sizin için otomatik olarak yükleyecektir.
 
 Projenin temelini oluşturan ana paketler şunlardır:
 
-* **`UiPath.System.Activities`**: Dosya ve klasör oluşturma, taşıma, döngüler ve koşullu ifadeler gibi otomasyonun bel kemiğini oluşturan temel sistem işlemlerini içerir.
-* **`UiPath.Mail.Activities` ve `UiPath.GSuite.Activities`**: Süreç sonunda hazırlanan raporun e-posta olarak gönderilmesi için `Use Gmail` gibi modern ve güvenli e-posta entegrasyonu yeteneklerini sağlar.
-* **`UiPath.UIAutomation.Activities`**: Bu proje arayüz otomasyonu yapmasa da, genellikle varsayılan olarak eklenen ve temel arayüz etkileşimleri için gerekli olan standart bir pakettir.
+*   **`UiPath.System.Activities`**: Dosya ve klasör işlemleri, döngüler ve koşullu ifadeler gibi temel sistem işlemlerini içerir.
+*   **`UiPath.Mail.Activities` ve `UiPath.GSuite.Activities`**: `Use Gmail` gibi modern ve güvenli e-posta entegrasyonu yeteneklerini sağlar.
+*   **`UiPath.UIAutomation.Activities`**: Genellikle varsayılan olarak eklenen ve temel arayüz etkileşimleri için gerekli olan standart bir pakettir.
 
 ---
 
-## Kurulum ve Kullanım Kılavuzu
+## 🚀 Kurulum ve Kullanım Kılavuzu
 
 Bu otomasyonu kendi makinenizde çalıştırmak için aşağıdaki adımları takip edebilirsiniz.
 
-### Sistem Gereksinimleri
+### 💻 Sistem Gereksinimleri
 
-* **İşletim Sistemi:** Windows
-* **Not:** Bu proje, .NET Framework tabanlı olduğu için macOS veya Linux üzerinde çalışmaz.
-* **Ortam:** UiPath Studio
+*   **İşletim Sistemi:** Windows
+*   **Ortam:** UiPath Studio
 
-### Ön Hazırlık
+### ✅ Ön Hazırlık
 
-1.  **Gmail Entegrasyonu:** Raporu gönderebilmek için bir gmail hesabı oluşturmanız veya giriş yapmanız ve bir de gönderilecek hesap seçmeniz gerekir.
-2.  **Aktivite Paketleri:** Gerekli tüm aktivite paketleri, proje UiPath Studio'da açıldığında otomatik olarak yüklenecektir. Manuel bir kurulum gerekmez.
+1.  **Gmail Entegrasyonu:** Raporu gönderebilmek için bir gmail hesabı oluşturmanız veya giriş yapmanız gerekir.
+2.  **Aktivite Paketleri:** Gerekli tüm paketler, proje açıldığında otomatik olarak yüklenecektir.
 
-### Kurulum Adımları
+###   Kurulum Adımları
 
 1.  **Projeyi İndirin:**
-    * Bu repoyu, "Code" > "Download ZIP" seçeneği ile indirin ve dosyaları bir klasöre çıkarın.
-    * Alternatif olarak, Git kurulu ise `git clone [İndirilecek Projenin GitHub URL'si]` komutunu kullanabilirsiniz.
+    *   Bu repoyu, "Code" > "Download ZIP" ile indirin veya `git clone` komutunu kullanın.
 2.  **Projeyi Açın:**
-    * İndirdiğiniz klasör içindeki `project.json` dosyasına çift tıklayarak projeyi UiPath Studio'da açın.
+    *   İndirdiğiniz klasördeki `project.json` dosyasına çift tıklayarak projeyi açın.
 3.  **Çalışma Alanını Hazırlayın:**
-    * **ÖNEMLİ:** Bu otomasyonun mevcut versiyonu, dosyaları organize etmek için sabit olarak kodlanmış bir yol kullanır: **Masaüstü\Düzenlenecek**.
-    * Bu nedenle, otomasyonu çalıştırmadan önce kendi **Masaüstünüzde "Düzenlenecek" adında bir klasör oluşturduğunuzdan** ve organize edilecek dosyaları bu klasörün içine koyduğunuzdan emin olun.
+    *   **ÖNEMLİ:** Otomasyon sabit olarak `Masaüstü\Düzenlenecek`` yolunu kullanır.
+    *   Çalıştırmadan önce **Masaüstünüzde "Düzenlenecek" adında bir klasör oluşturduğunuzdan** emin olun.
 4.  **E-postayı Yapılandırın:**
-    * `Main.xaml` dosyasını açın ve **Use Gmail** aktivitesini bulun.
-    * Kendi Gmail hesap bilgilerinizi girin ve raporun gönderileceği alıcı e-posta adresini (`To` alanı) güncelleyin.
+    *   `Main.xaml` dosyasında **Use Gmail** aktivitesini bulun ve alıcı e-posta adresini güncelleyin.
 5.  **Otomasyonu Başlatın:**
-    * UiPath Studio'da "**Run File**" butonuna tıklayarak otomasyonu çalıştırın.
+    *   UiPath Studio'da "**Run File**" butonuna tıklayarak otomasyonu çalıştırın.
 
-İşlem tamamlandığında, masaüstünüzdeki "Düzenlenecek" klasörünün organize olduğunu ve yapılandırdığınız e-posta adresine bir özet raporu geldiğini göreceksiniz.
+İşlem tamamlandığında, "Düzenlenecek" klasörünüzün organize olduğunu ve e-posta adresinize bir özet raporu geldiğini göreceksiniz.
 
 ---
 
-## İyileştirme Fikirleri
+## ✨ İyileştirme Fikirleri
 
-Otomasyonu daha da kullanıcı dostu hale getirmek ve yeteneklerini artırmak amacıyla ileride eklenebilecek bazı özellikler şunlardır:
+Otomasyonu daha kullanıcı dostu hale getirmek amacıyla ileride eklenebilecek bazı özellikler şunlardır:
 
-* **İçeriğe Göre Akıllı Arşivleme:** Kullanıcıların aradıkları dosyaları daha kolay bulabilmesi için gelecekte **Document Understanding** entegrasyonu düşünülebilir. Bu sayede otomasyon, bir faturayı veya sözleşmeyi içeriğinden tanıyarak, dosyaları "Faturalar" veya "Sözleşmeler" gibi, kullanıcının daha anlamlı bulacağı klasörlere ayırabilir.
-* **Kullanıcıya Özel Klasör Seçimi:** Kullanıcılara daha fazla esneklik sunmak amacıyla, otomasyonun başında bir diyalog penceresi (**Input Dialog**) eklenebilir. Bu sayede her kullanıcı, organize etmek istediği klasörü kendisi seçebilir ve sabit bir yola bağlı kalmadan kişiselleştirebilir.
+*   **İçeriğe Göre Akıllı Arşivleme:** **Document Understanding** entegrasyonu ile otomasyon, bir faturayı veya sözleşmeyi içeriğinden tanıyarak daha anlamlı alt klasörlere ayırabilir.
+*   **Kullanıcıya Özel Klasör Seçimi:** Başlangıçta bir diyalog penceresi (**Input Dialog**) ile her kullanıcının organize etmek istediği klasörü kendisinin seçmesi sağlanabilir.
 
 ---
 
