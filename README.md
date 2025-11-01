@@ -92,7 +92,7 @@ Projeyi çalıştırmadan önce, aşağıdaki görselde belirtilen iki adımı t
 2.  **`Send Email`** aktivitesinin "To" (Kime) alanına, raporun gönderilmesini istediğiniz e-posta adresini tırnak işaretleri içinde yazın (örneğin, `"ornek@eposta.com"`).
 3.   Masaüstüne Düzenlenecek **`Düzenlenecek`** adlı bir klasör oluşturun.
 
-![Kurulum Adımları](<How can I start the project.png>)
+![Kurulum Adımları](<assets/How can I start the project.png>)
 
 ## ✨ İyileştirme Fikirleri
 
