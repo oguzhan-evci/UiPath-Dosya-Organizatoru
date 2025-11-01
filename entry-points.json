@@ -4,7 +4,16 @@
     {
       "filePath": "Main.xaml",
       "uniqueId": "193dbc6d-abea-43e4-844e-b7f4ed6606f4",
-      "type": "process"
+      "type": "process",
+      "input": {
+        "type": "object",
+        "properties": {
+          "in_AliciEposta": {
+            "type": "string"
+          }
+        },
+        "required": []
+      }
     }
   ]
 }
